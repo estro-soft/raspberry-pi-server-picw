@@ -5,6 +5,7 @@ SRC = webserver.c
 BIN = raspweb
 INSTALL_DIR = /usr/local/bin
 TARGET = $(INSTALL_DIR)/$(BIN)
+DEBUGCFLAGS = $(CFLAGS) -Og -g
 
 all: $(BIN)
 
@@ -17,9 +18,11 @@ install: $(BIN)
 
 clean:
 	@rm -f $(BIN)
+debug:
+	$(CC) $(DEBUGCFLAGS) $(SRC) -o $(BIN) $(LDFLAGS)
 
 clean-install: clean install
 
-.PHONY: all install clean clean-install
+.PHONY: all install clean clean-install debug
 
 
