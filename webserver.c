@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
       if (command && name && direction) {
         if (strcmp(command, "MOVE") == 0) {
           if (is_valid_name(name)) {
-            if (strcmp(direction, "up") == 0 || strcmp(direction, "down")|| strcmp(direction, "right") == 0 || strcmp(direction, "left")  == 0) {
+            if (strcmp(direction, "up") == 0 || strcmp(direction, "down") == 0|| strcmp(direction, "right") == 0 || strcmp(direction, "left")  == 0) {
               switch((int)name[0]){
                 case 97:
                   uord(14,direction);
