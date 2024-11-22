@@ -7,6 +7,7 @@
 #define BUFFER_SIZE 1024
 #define PORT_DEFAULT 8080
 
+void uord(int pin, char* dir);
 const char* valid_names[] = {"arm","schouder","elleboog","pols","hand","vinger"};
 const int valid_names_count = 6;
 int is_valid_name(const char* name) {
@@ -92,34 +93,22 @@ int main(int argc, char *argv[]) {
             if (strcmp(direction, "up") == 0 || strcmp(direction, "down")|| strcmp(direction, "right") == 0 || strcmp(direction, "left")  == 0) {
               switch((int)name[0]){
                 case 97:
-                  digitalWrite(14, HIGH); 
-                  delay(500);
-                  digitalWrite(14, LOW); 
+                  uord(14,direction);
                   break;
                 case 101:
-                  digitalWrite(15, HIGH); 
-                  delay(500);
-                  digitalWrite(15, LOW); 
+                  uord(15,direction);
                   break;
                 case 104:
-                  digitalWrite(18, HIGH); 
-                  delay(500);
-                  digitalWrite(18, LOW); 
+                  uord(18,direction);
                   break;
                 case 112:
-                  digitalWrite(23, HIGH); 
-                  delay(500);
-                  digitalWrite(23, LOW); 
+                  uord(23,direction);
                   break;
                 case 115:
-                  digitalWrite(24, HIGH); 
-                  delay(500);
-                  digitalWrite(24, LOW); 
+                  uord(24,direction);
                   break;
                 case 118:
-                  digitalWrite(25, HIGH); 
-                  delay(500);
-                  digitalWrite(25, LOW); 
+                  uord(25,direction);
                   break;
               }
             }
@@ -137,4 +126,14 @@ int main(int argc, char *argv[]) {
   close(new_socket);
   close(server_fd);
   return 0;
+}
+
+void uord(int pin, char* dir){
+  if(strcmp(dir, "up")==0){
+      digitalWrite(pin, HIGH);
+  }
+  else{
+    digitalWrite(pin, LOW);
+  }
+  return;
 }
