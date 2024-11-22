@@ -135,5 +135,4 @@ void uord(int pin, char* dir){
   else{
     digitalWrite(pin, LOW);
   }
-  return;
 }
