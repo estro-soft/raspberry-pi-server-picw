@@ -4,12 +4,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include <ctype.h>
 #define BUFFER_SIZE 1024
 #define PORT_DEFAULT 8080
 
 void uord(int pin, char* dir);
 const char* valid_names[] = {"arm","schouder","elleboog","pols","hand","vinger"};
 const int valid_names_count = 6;
+
 int is_valid_name(const char* name) {
   for (int i = 0; i < valid_names_count; ++i) {
     if (strcmp(name, valid_names[i]) == 0) {
@@ -18,6 +20,7 @@ int is_valid_name(const char* name) {
   }
   return 0; 
 }
+
 void trim_newline(char *str) {
   char *pos;
   if ((pos = strchr(str, '\n')) != NULL) {
@@ -27,6 +30,7 @@ void trim_newline(char *str) {
     *pos = '\0';
   }
 }
+
 int main(int argc, char *argv[]) {
   wiringPiSetupGpio();
   pinMode(14, OUTPUT);
@@ -87,10 +91,19 @@ int main(int argc, char *argv[]) {
       if (direction) {
         trim_newline(direction);
       }
+      for(size_t i = 0; i<strlen(command);i++){
+        command[i] = tolower(command[i]);
+      }
+      for(size_t i = 0; i<strlen(name);i++){
+        name[i] = tolower(name[i]);
+      }
+      for(size_t i = 0; i<strlen(direction);i++){
+        direction[i] = tolower(direction[i]);
+      }
       if (command && name && direction) {
-        if (strcmp(command, "MOVE") == 0) {
+        if (strcmp(command, "move") == 0) {
           if (is_valid_name(name)) {
-            if (strcmp(direction, "up") == 0 || strcmp(direction, "down") == 0|| strcmp(direction, "right") == 0 || strcmp(direction, "left")  == 0) {
+            if (strcmp(direction, "up") == 0 || strcmp(direction, "down") == 0 || strcmp(direction, "right") == 0 || strcmp(direction, "left") == 0) {
               switch((int)name[0]){
                 case 97:
                   uord(14,direction);
@@ -116,10 +129,10 @@ int main(int argc, char *argv[]) {
             printf("Invalid name: %s\n", name);
           }
         } else {
-          printf("Invalid command: %s (expected 'MOVE')\n", command);
+          printf("Invalid command: %s (expected 'move')\n", command);
         }
       } else {
-        printf("Invalid input format. Expected: MOVE <name> <up/down>\n");
+        printf("Invalid input format. Expected: move <name> <up/down>\n");
       }
     }
   }
@@ -129,8 +142,8 @@ int main(int argc, char *argv[]) {
 }
 
 void uord(int pin, char* dir){
-  if(strcmp(dir, "up")==0){
-      digitalWrite(pin, HIGH);
+  if(strcmp(dir, "up")==0 || strcmp(dir, "right")==0){
+    digitalWrite(pin, HIGH);
   }
   else{
     digitalWrite(pin, LOW);
