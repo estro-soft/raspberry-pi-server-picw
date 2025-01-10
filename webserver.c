@@ -128,8 +128,16 @@ int main(int argc, char *argv[]) {
           } else {
             printf("Invalid name: %s\n", name);
           }
+        } else if (strcmp(command, "help")==0){
+          for(int i = 0; i<6;i++){
+            send(new_socket, valid_names[i], strlen(valid_names[i]),0);
+          }
         } else {
           printf("Invalid command: %s (expected 'move')\n", command);
+        }
+      } else if (strcmp(command, "help")==0){
+        for(int i = 0; i<6;i++){
+          send(new_socket, valid_names[i], strlen(valid_names[i]),0);
         }
       } else {
         printf("Invalid input format. Expected: move <name> <up/down>\n");
